@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -5,22 +6,32 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 
 using Geode.Models;
+using Geode.Data;
 
 namespace Geode.ViewComponents
 {
     public class Zone : ViewComponent
     {
+        private readonly GeodeContext _context;
+
+        public Zone(GeodeContext context)
+        {
+            _context = context;
+        }
+
         public async Task<IViewComponentResult> InvokeAsync(string name)
         {
+
+            Console.WriteLine("Zone: " + name);
             // TODO: Get the zone's blocks from the database/cache
             IEnumerable<Block> blocks;
             switch (name)
             {
                 case "Feature":
-                    blocks = new Block[] { new Block() };
+                    blocks = _context.Blocks;
                     break;
                 case "Main":
-                    blocks = new Block[] { new Block() };
+                    blocks = new Block[] { new Block("Test Block 1", "Geode.Web.Blocks.Cms.HtmlContentDetail, Geode.Web") };
                     break;
                 default:
                     blocks = new Block[0];

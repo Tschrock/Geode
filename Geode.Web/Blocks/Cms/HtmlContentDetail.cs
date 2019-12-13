@@ -14,7 +14,13 @@ namespace Geode.Web.Blocks.Cms
         public override async Task<IViewComponentResult> Render()
         {
             Console.WriteLine(this.Block.Name);
-            return View("/Blocks/Cms/HtmlContentDetail.cshtml", "Hello World");
+            return View("/Blocks/Cms/HtmlContentDetail.cshtml", new Model { Title = this.Block.Name, Content = "<p>Hello World</p>" });
+        }
+
+        public class Model
+        {
+            public string Title { get; set; } = "";
+            public string Content { get; set; } = "";
         }
 
     }

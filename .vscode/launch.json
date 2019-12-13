@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/Geode.Web/bin/Debug/netcoreapp3.0/Geode.Web.dll",
+            "program": "${workspaceFolder}/Geode.Web/bin/Debug/netcoreapp3.1/Geode.Web.dll",
             "args": [],
             "cwd": "${workspaceFolder}/Geode.Web",
             "stopAtEntry": false,
