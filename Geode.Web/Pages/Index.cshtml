@@ -1,0 +1,35 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+@section feature{
+
+    <vc:zone name="Feature"></vc:zone>
+
+}
+
+@section main{
+
+    <!-- Start Content Area -->
+
+    <!-- Ajax Error -->
+    <div class="alert alert-danger ajax-error" style="display: none">
+        <p><strong>Error</strong></p>
+        <span class="ajax-error-message"></span>
+    </div>
+
+    <vc:zone name="Main"></vc:zone>
+
+    <vc:zone name="Section A"></vc:zone>
+
+    <vc:zone name="Section B"></vc:zone>
+
+    <vc:zone name="Section C"></vc:zone>
+
+    <vc:zone name="Section D"></vc:zone>
+
+    <!-- End Content Area -->
+
+}

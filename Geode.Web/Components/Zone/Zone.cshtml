@@ -1,0 +1,11 @@
+@using Geode.Utility
+@model Geode.ViewComponents.Zone.Model
+
+<div id="zone-@Model.Name.ToCssClass()" class="geode-zone">
+    @foreach (var block in Model.Blocks)
+    {
+        <div class="geode-block block-@block.BlockType.Name.ToCssClass()">
+            @await Component.InvokeAsync(block.BlockType, new { block = block })
+        </div>
+    }
+</div>
