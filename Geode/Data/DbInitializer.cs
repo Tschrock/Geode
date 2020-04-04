@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 // </copyright>
 
+using System;
 using System.Linq;
 
 using Geode.Models;
@@ -11,7 +12,7 @@ namespace Geode.Data
     /// <summary>
     /// Contains utility methods used to initialize the database.
     /// </summary>
-    internal static class DbInitializer
+    public static class DbInitializer
     {
         /// <summary>
         /// Initializes the database using the given context. Initialization makes sure the database is created, seeded, and updated.
@@ -19,6 +20,11 @@ namespace Geode.Data
         /// <param name="context">The <see cref="GeodeContext"/> to use to initialize the database.</param>
         public static void Initialize(GeodeContext context)
         {
+            if (context == null)
+            {
+                throw new ArgumentNullException(nameof(context));
+            }
+
             // Create the database if needed
             context.Database.EnsureCreated();
 
