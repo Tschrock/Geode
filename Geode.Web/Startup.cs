@@ -3,23 +3,19 @@
 // </copyright>
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Rewrite;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc.Razor;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.EntityFrameworkCore;
 
 using Geode.Data;
-using Microsoft.AspNetCore.Http;
 using Geode.Utility;
+using Geode.Web.Configuration;
 
 namespace Geode.Web
 {
@@ -114,12 +110,10 @@ namespace Geode.Web
             var wwwConfig = this.Configuration.GetSection("RedirectWWW");
             if (wwwConfig.GetValue("Enable", true))
             {
-
-
-
-
                 var options = new RewriteOptions();
-                options.AddRedirectToWww();
+                options.Add(new RedirectWwwRule(
+                    wwwConfig.GetValue("Action", RedirectWwwRule.Action.Remove),
+                    wwwConfig.GetValue("RedirectStatusCode", StatusCodes.Status308PermanentRedirect)));
                 app.UseRewriter(options);
             }
 
