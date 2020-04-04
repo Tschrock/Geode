@@ -22,6 +22,11 @@ namespace Geode.Web.Blocks
         /// <value>A <see cref="Models.Block"/> value containing the block data.</value>
         public Block? Block { get; internal set; }
 
+        /// <summary>
+        /// Renders the web block.
+        /// </summary>
+        /// <param name="block">The block data.</param>
+        /// <returns>The rendered block.</returns>
         public Task<IViewComponentResult> InvokeAsync(Block block)
         {
             this.Block = block;
@@ -29,7 +34,10 @@ namespace Geode.Web.Blocks
             return this.Render();
         }
 
+        /// <summary>
+        /// Renders the block.
+        /// </summary>
+        /// <returns>The rendered block.</returns>
         public abstract Task<IViewComponentResult> Render();
-
     }
 }
