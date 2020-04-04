@@ -21,6 +21,16 @@ namespace Geode.Models
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="SiteDomain"/> class.
+        /// Private constructor for Entity Framework.
+        /// </summary>
+        private SiteDomain()
+        {
+            this.Site = null!;
+            this.Value = null!;
+        }
+
+        /// <summary>
         /// Gets or sets the site.
         /// </summary>
         public Site Site { get; set; }

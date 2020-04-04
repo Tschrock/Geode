@@ -29,6 +29,15 @@ namespace Geode.Models
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Block"/> class.
+        /// Private constructor for Entity Framework.
+        /// </summary>
+        private Block()
+        {
+            this.Page = null!;
+        }
+
+        /// <summary>
         /// Gets or sets the name of the block. This is used in the CMS management UI and may also be displayed as part of a block's content.
         /// </summary>
         /// <value>A <see cref="string"/> value to use as the name of the block.</value>

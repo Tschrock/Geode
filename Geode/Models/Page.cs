@@ -24,6 +24,16 @@ namespace Geode.Models
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="Page"/> class.
+        /// Private constructor for Entity Framework.
+        /// </summary>
+        private Page()
+        {
+            this.Site = null!;
+            this.Layout = null!;
+        }
+
+        /// <summary>
         /// Gets or sets the internal name of the page. This is used in the CMS management UI.
         /// </summary>
         public string InternalName { get; set; } = string.Empty;

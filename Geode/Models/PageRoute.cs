@@ -21,6 +21,15 @@ namespace Geode.Models
         }
 
         /// <summary>
+        /// Initializes a new instance of the <see cref="PageRoute"/> class.
+        /// Private constructor for Entity Framework.
+        /// </summary>
+        private PageRoute()
+        {
+            this.Page = null!;
+        }
+
+        /// <summary>
         /// Gets or sets the <see cref="Page"/>.
         /// </summary>
         public Page Page { get; set; }
