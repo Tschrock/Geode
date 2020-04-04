@@ -5,7 +5,7 @@
         <LangVersion>8.0</LangVersion>
         <Nullable>enable</Nullable>
         <IsPackable>false</IsPackable>
-        <CodeAnalysisRuleSet>$(SolutionDir)\stylecop.ruleset</CodeAnalysisRuleSet>
+        <CodeAnalysisRuleSet>..\stylecop.ruleset</CodeAnalysisRuleSet>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
     </PropertyGroup>
 

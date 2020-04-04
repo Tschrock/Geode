@@ -1,6 +1,6 @@
 <Project>
     <!-- StyleCop Analyzers configuration -->
   <ItemGroup>
-    <AdditionalFiles Include="$(SolutionDir)stylecop.json" Link="stylecop.json" />
+    <AdditionalFiles Include="../stylecop.json" Link="stylecop.json" />
   </ItemGroup>
 </Project>
