@@ -1,4 +1,9 @@
+// <copyright>
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
+
 using System;
+
 using Xunit;
 
 using Geode.Utility;
@@ -13,8 +18,8 @@ namespace Geode.Tests
         /// <summary>
         /// Tests that <see cref="StringExtensions.ToCssClass"/> returns the expected results.
         /// </summary>
-        /// <param name="testString"></param>
-        /// <param name="expectedResult"></param>
+        /// <param name="testString">The string to test.</param>
+        /// <param name="expectedResult">The expected result.</param>
         [Theory(DisplayName = "ToCssClass returns expected results")]
         [InlineData("Test", "test")]
         [InlineData("Test A", "test-a")]
