@@ -75,7 +75,7 @@ namespace Geode.Web
 
             // Add the Database Context
             var connectionString = this.Configuration.GetConnectionString("GeodeContext");
-            services.AddDbContext<GeodeContext>(options => options.UseSqlite(connectionString));
+            services.AddDbContext<GeodeContext>(options => options.UseSqlServer(connectionString));
         }
 
         /// <summary>

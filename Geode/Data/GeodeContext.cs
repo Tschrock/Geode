@@ -52,7 +52,24 @@ namespace Geode.Data
                 throw new ArgumentNullException(nameof(modelBuilder));
             }
 
-            modelBuilder.Entity<Block>().ToTable("Block");
+            // For every model
+            foreach (var type in modelBuilder.Model.GetEntityTypes())
+            {
+                // If it's an entity
+                if (type.ClrType.IsSubclassOf(typeof(Entity)))
+                {
+                    // Create a builder
+                    var entityBuilder = modelBuilder.Entity(type.ClrType);
+
+                    // Use the singular type name for the table
+                    entityBuilder.ToTable(type.ClrType.Name);
+
+                    // Set up default values
+                    entityBuilder.Property("Guid").HasDefaultValueSql("newid()");
+                    entityBuilder.Property("CreatedDateTime").HasDefaultValueSql("CURRENT_TIMESTAMP");
+                    entityBuilder.Property("ModifiedDateTime").HasDefaultValueSql("CURRENT_TIMESTAMP");
+                }
+            }
         }
     }
 }
