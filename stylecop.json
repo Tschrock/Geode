@@ -2,7 +2,17 @@
     "$schema": "https://raw.githubusercontent.com/DotNetAnalyzers/StyleCopAnalyzers/master/StyleCop.Analyzers/StyleCop.Analyzers/Settings/stylecop.schema.json",
     "settings": {
         "orderingRules": {
-            "usingDirectivesPlacement": "outsideNamespace"
+            "usingDirectivesPlacement": "outsideNamespace",
+            "blankLinesBetweenUsingGroups": "require"
+        },
+        "documentationRules": {
+            "xmlHeader": false,
+            "copyrightText": "<copyright>\nLicensed under the MIT license. See LICENSE file in the project root for full license information.\n</copyright>",
+            "variables": {
+                "authorName": "Tyler Schrock",
+                "licenseName": "MIT",
+                "licenseFile": "LICENSE"
+            }
         }
     }
 }

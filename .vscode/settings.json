@@ -1,4 +1,7 @@
 {
+    "files.associations": {
+        "appsettings*.json": "jsonc"
+    },
     "files.exclude": {
         "**/.git": true,
         "**/bin": true,

@@ -1,5 +1,6 @@
-
-using System;
+// <copyright>
+// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// </copyright>
 
 namespace Geode.Models
 {
@@ -8,17 +9,16 @@ namespace Geode.Models
     /// </summary>
     public class Email : Entity
     {
-
         /// <summary>
         /// Gets or sets a value indicating whether the email is active.
         /// </summary>
+        /// <value>A <see cref="bool"/> value that indicating whether the email is active.</value>
         public bool IsActive { get; set; } = true;
 
         /// <summary>
-        /// Gets
+        /// Gets or sets the email value.
         /// </summary>
-        /// <value></value>
-        public string Value { get; set; } = "";
-
+        /// <value>A <see cref="string"/> value that contains the email address.</value>
+        public string Value { get; set; } = string.Empty;
     }
 }

@@ -5,8 +5,16 @@ using Geode.Utility;
 
 namespace Geode.Tests
 {
+    /// <summary>
+    /// Contains tests for the <see cref="StringExtensions"/> class.
+    /// </summary>
     public class StringExtensionsTests
     {
+        /// <summary>
+        /// Tests that <see cref="StringExtensions.ToCssClass"/> returns the expected results.
+        /// </summary>
+        /// <param name="testString"></param>
+        /// <param name="expectedResult"></param>
         [Theory(DisplayName = "ToCssClass returns expected results")]
         [InlineData("Test", "test")]
         [InlineData("Test A", "test-a")]
@@ -15,8 +23,17 @@ namespace Geode.Tests
         {
             string result = StringExtensions.ToCssClass(testString);
 
-            Assert.Equal(result, expectedResult);
+            Assert.Equal(expectedResult, result);
         }
 
+        /// <summary>
+        /// Tests that <see cref="StringExtensions.ToCssClass"/> throws on null values.
+        /// This shouldn't happen within the project, but external code may attempt to use it on a null value.
+        /// </summary>
+        [Fact(DisplayName = "ToCssClass throws on null values")]
+        public void ToCssClassThrowsOnNull()
+        {
+            Assert.Throws<ArgumentNullException>(() => StringExtensions.ToCssClass(null!));
+        }
     }
 }

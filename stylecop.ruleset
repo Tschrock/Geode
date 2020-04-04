@@ -1,0 +1,6 @@
+<?xml version="1.0"?>
+<RuleSet Name="Geode Rules" Description="Rules for Geode" ToolsVersion="15.0">
+  <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.CSharp.OrderingRules">
+    <Rule Id="SA1210" Action="None" />
+  </Rules>
+</RuleSet>
