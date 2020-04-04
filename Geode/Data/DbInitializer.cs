@@ -11,7 +11,7 @@ namespace Geode.Data
     /// <summary>
     /// Contains utility methods used to initialize the database.
     /// </summary>
-    public static class DbInitializer
+    internal static class DbInitializer
     {
         /// <summary>
         /// Initializes the database using the given context. Initialization makes sure the database is created, seeded, and updated.
@@ -28,11 +28,21 @@ namespace Geode.Data
                 return;
             }
 
+            var site = new Site("Test Site");
+            context.Sites.Add(site);
+
+            var layout = new Layout();
+            context.Layouts.Add(layout);
+
+            var page = new Page(site, layout);
+            context.Pages.Add(page);
+
             // Add initial blocks
-            context.Blocks.AddRange(new Block[] {
-                new Block("Test Block 1", "Geode.Web.Blocks.Cms.HtmlContentDetail, Geode.Web"),
-                new Block("Test Block 2", "Geode.Web.Blocks.Cms.HtmlContentDetail, Geode.Web"),
-                new Block("Test Block 3", "Geode.Web.Blocks.Cms.HtmlContentDetail, Geode.Web"),
+            context.Blocks.AddRange(new Block[]
+            {
+                new Block(page, "Main", 0, "Test Block 1", "Geode.Web.Blocks.Cms.HtmlContentDetail, Geode.Web"),
+                new Block(page, "Main", 0, "Test Block 2", "Geode.Web.Blocks.Cms.HtmlContentDetail, Geode.Web"),
+                new Block(page, "Main", 0, "Test Block 3", "Geode.Web.Blocks.Cms.HtmlContentDetail, Geode.Web"),
             });
 
             // Save changes
