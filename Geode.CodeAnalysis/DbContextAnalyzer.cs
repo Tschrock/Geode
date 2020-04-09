@@ -4,8 +4,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Collections.Immutable;
 using System.Linq;
+using System.Threading.Tasks;
 
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -15,7 +17,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Geode.CodeAnalysis
 {
     /// <summary>
-    /// An analyzer that ensures each DbContext has a DbSet property for all models.
+    /// Analyzes DbContexts for common issues.
     /// </summary>
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
     public class DbContextAnalyzer : DiagnosticAnalyzer
@@ -23,7 +25,7 @@ namespace Geode.CodeAnalysis
         private static readonly DiagnosticDescriptor DbContextMissingDbSetPropertiesRule = new DiagnosticDescriptor(
             "Geode0002",
             "DbContext missing DbSet properties",
-            "DbContext is missing DbSet properties for the following models: {0}",
+            "DbContext '{0}' is missing DbSet properties for the following entities: {1}",
             "Database",
             DiagnosticSeverity.Warning,
             isEnabledByDefault: true,
@@ -61,9 +63,10 @@ namespace Geode.CodeAnalysis
                 throw new ArgumentNullException(nameof(context));
             }
 
-            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.None);
+            context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze);
             context.EnableConcurrentExecution();
             context.RegisterSyntaxNodeAction(this.AnalyzeNode, SyntaxKind.ClassDeclaration);
+            context.RegisterCompilationAction(this.AnalyzeDbContext);
         }
 
         private void AnalyzeNode(SyntaxNodeAnalysisContext context)
@@ -104,34 +107,68 @@ namespace Geode.CodeAnalysis
                         }
                     }
                 }
+            }
+        }
 
-                // TODO: check that all models have a DbSet
+        private void AnalyzeDbContext(CompilationAnalysisContext context)
+        {
+            var visitor = new DbContextSymbolsVisitor();
+            visitor.Visit(context.Compilation.GlobalNamespace);
+
+            var entities = visitor.EntityExtensions.Select(s => s.Name).ToArray();
+            foreach (var dbContext in visitor.DbContextExtensions)
+            {
+                var dbSets = dbContext
+                    .GetMembers()
+                    .OfType<IPropertySymbol>()
+                    .Select(p => p.Type)
+                    .OfType<INamedTypeSymbol>()
+                    .Where(t => t.Name == "DbSet" && t.TypeArguments.Length == 1)
+                    .Select(t => t.TypeArguments.ElementAt(0).Name)
+                    .ToArray();
+
+                var missingEntities = entities.Except(dbSets).ToArray();
+
+                if (missingEntities.Any())
+                {
+                    foreach (var location in dbContext.Locations)
+                    {
+                        context.ReportDiagnostic(Diagnostic.Create(DbContextMissingDbSetPropertiesRule, location, new[] { dbContext.Name, string.Join<string>(", ", missingEntities) }));
+                    }
+                }
+            }
+        }
+
+        private class DbContextSymbolsVisitor : SymbolVisitor
+        {
+            public ConcurrentBag<INamedTypeSymbol> DbContextExtensions { get; } = new ConcurrentBag<INamedTypeSymbol>();
+
+            public ConcurrentBag<INamedTypeSymbol> EntityExtensions { get; } = new ConcurrentBag<INamedTypeSymbol>();
+
+            public override void VisitNamespace(INamespaceSymbol symbol)
+            {
+                // Visit each child Type/Namespace
+                Parallel.ForEach(symbol.GetMembers(), s => s.Accept(this));
             }
 
-            /*
-            BaseList()
-             - SeparatedSyntaxList<BaseTypeSyntax>
-             - returns BaseListSyntax
+            public override void VisitNamedType(INamedTypeSymbol symbol)
+            {
+                var baseType = symbol.BaseType;
+                if (baseType != null)
+                {
+                    if (baseType.Name == "DbContext")
+                    {
+                        this.DbContextExtensions.Add(symbol);
+                    }
+                    else if (baseType.Name == "Entity")
+                    {
+                        this.EntityExtensions.Add(symbol);
+                    }
+                }
 
-            SingletonSeparatedList<TNode>()
-             - Node
-             - returns SeparatedSyntaxList<TNode>
-
-            SimpleBaseType()
-             - TypeSyntax
-             - returns SimpleBaseTypeSyntax
-
-            IdentifierName()
-             - SyntaxToken
-             - returns IdentifierNameSyntax (TypeSyntax)
-
-            SyntaxFactory.BaseList(
-                SyntaxFactory.SingletonSeparatedList<BaseTypeSyntax>(
-                    SyntaxFactory.SimpleBaseType(
-                        SyntaxFactory.IdentifierName("DbContext")))))
-            */
-
-            // context.ReportDiagnostic(Diagnostic.Create(Rule, context.Node.GetLocation(), variableNameString));
+                // Visit each child Type
+                Parallel.ForEach(symbol.GetTypeMembers(), s => s.Accept(this));
+            }
         }
     }
 }

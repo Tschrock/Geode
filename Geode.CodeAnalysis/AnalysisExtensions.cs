@@ -64,5 +64,25 @@ namespace Geode.CodeAnalysis
         {
             return type is SimpleNameSyntax simpleType && simpleType.Identifier.ValueText == name;
         }
+
+        /// <summary>
+        /// Determines whether the <see cref="TypeSyntax"/> is a generic type that matches the specified name and type parameter.
+        /// </summary>
+        /// <param name="type">The <see cref="TypeSyntax"/> to check.</param>
+        /// <param name="name">The type name.</param>
+        /// <param name="typeParameter1Matcher">The delegate for checking the first type parameter.</param>
+        /// <returns>`true` if the <see cref="TypeSyntax"/> is a generic type that matches the specified criteria; otherwise, `false`.</returns>
+        public static bool IsGenericType(this TypeSyntax type, string name, Func<TypeSyntax, bool> typeParameter1Matcher)
+        {
+            if (typeParameter1Matcher == null)
+            {
+                throw new ArgumentNullException(nameof(typeParameter1Matcher));
+            }
+
+            return type is GenericNameSyntax genericType
+             && genericType.Identifier.ValueText == name
+             && genericType.TypeArgumentList.Arguments.Count == 1
+             && typeParameter1Matcher(genericType.TypeArgumentList.Arguments.ElementAt(0));
+        }
     }
 }
