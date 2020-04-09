@@ -1,9 +1,21 @@
 <?xml version="1.0"?>
 <RuleSet Name="Geode Rules" Description="Rules for Geode" ToolsVersion="15.0">
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.CSharp.OrderingRules">
+
+    <!-- SA1210: Using directives must be ordered alphabetically by namespace -->
+    <!-- Disabled because it conflicts with the way we group using statements. -->
     <Rule Id="SA1210" Action="None" />
+
   </Rules>
   <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+
+    <!-- CA1303: Do not pass literals as localized parameters -->
+    <!-- Disabled until we figure out localization. -->
     <Rule Id="CA1303" Action="None" />
+
+    <!-- CA1724: Type names should not match namespaces -->
+    <!-- Disabled because it was triggering on things like the Geode.Models.Layout model matching the System.Windows.Forms.Layout namespace. -->
+    <Rule Id="CA1724" Action="None" />
+
   </Rules>
 </RuleSet>
