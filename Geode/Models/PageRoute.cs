@@ -7,24 +7,24 @@ namespace Geode.Models
     /// <summary>
     /// A page route for Geode's CMS system.
     /// </summary>
-    public class PageRoute : Entity
+    public class SiteRoute : Entity
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageRoute"/> class.
+        /// Initializes a new instance of the <see cref="SiteRoute"/> class.
         /// </summary>
         /// <param name="page">The page.</param>
         /// <param name="value">The route.</param>
-        public PageRoute(Page page, string value)
+        public SiteRoute(Page page, string value)
         {
             this.Page = page;
             this.Value = value;
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PageRoute"/> class.
+        /// Initializes a new instance of the <see cref="SiteRoute"/> class.
         /// Private constructor for Entity Framework.
         /// </summary>
-        private PageRoute()
+        private SiteRoute()
         {
             this.Page = null!;
         }

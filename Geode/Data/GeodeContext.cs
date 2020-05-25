@@ -40,6 +40,11 @@ namespace Geode.Data
         public DbSet<Page> Pages { get; set; } = null!;
 
         /// <summary>
+        /// Gets or sets the PageRoutes DbSet.
+        /// </summary>
+        public DbSet<SiteRoute> PageRoutes { get; set; } = null!;
+
+        /// <summary>
         /// Gets or sets the Sites DbSet.
         /// </summary>
         public DbSet<Site> Sites { get; set; } = null!;

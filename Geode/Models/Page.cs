@@ -66,6 +66,6 @@ namespace Geode.Models
         /// <summary>
         /// Gets the routes used by the page.
         /// </summary>
-        public List<PageRoute> Routes { get; private set; } = new List<PageRoute>();
+        public List<SiteRoute> Routes { get; private set; } = new List<SiteRoute>();
     }
 }

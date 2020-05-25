@@ -16,6 +16,7 @@ using Microsoft.Extensions.Hosting;
 using Geode.Data;
 using Geode.Utility;
 using Geode.Web.Configuration;
+using Geode.Web.Routing;
 
 namespace Geode.Web
 {
@@ -76,6 +77,9 @@ namespace Geode.Web
             // Add the Database Context
             var connectionString = this.Configuration.GetConnectionString("GeodeContext");
             services.AddDbContext<GeodeContext>(options => options.UseSqlServer(connectionString));
+
+            // Add Geode services
+            services.AddGeode();
         }
 
         /// <summary>
@@ -122,6 +126,7 @@ namespace Geode.Web
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapGeode();
                 endpoints.MapRazorPages();
             });
         }

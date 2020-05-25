@@ -30,7 +30,6 @@ namespace Geode.Web.Blocks
         public Task<IViewComponentResult> InvokeAsync(Block block)
         {
             this.Block = block;
-            Console.WriteLine("BBBBBBBBBBBBBBB");
             return this.Render();
         }
 
