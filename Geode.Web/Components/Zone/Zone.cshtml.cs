@@ -1,5 +1,5 @@
 // <copyright>
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Licensed under the MIT license. See the LICENSE.md file in the project root for full license information.
 // </copyright>
 
 using System;
